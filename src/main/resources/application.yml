@@ -19,3 +19,6 @@ logging:
         SQL: DEBUG
 server:
   port: 5000
+app:
+  jwtSecret: Y2VmMzdmZTU2YmRmYzExMjkzZDYzZDVj
+  jwtExpirationInMs: 604800000
