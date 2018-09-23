@@ -1,8 +1,7 @@
 package com.vpacheco.vlib.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -10,22 +9,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import com.vpacheco.vlib.model.audit.DateAudit;
+import org.hibernate.annotations.GeneratorType;
 
 @Entity
 @Data
-//@NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
-@RequiredArgsConstructor
 public class User extends DateAudit {
 
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue(generator = "GUID")
-  @GenericGenerator(
-      name = "GUID",
-      strategy = "org.hibernate.id.GUIDGenerator"
-  )
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotBlank
@@ -49,4 +44,15 @@ public class User extends DateAudit {
 
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<Role> roles = new HashSet<>();
+
+  public User() {
+
+  }
+
+  public User(String name, String username, String email, String password) {
+    this.name = name;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
 }
