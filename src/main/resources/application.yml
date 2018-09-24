@@ -18,3 +18,9 @@ server:
 app:
   jwtSecret: Y2VmMzdmZTU2YmRmYzExMjkzZDYzZDVj
   jwtExpirationInMs: 604800000
+  config:
+    reservationExpiry: 5
+    requisitionExpiry: 5
+    openingTime: "9:00"
+    closingTime: "18:00"
+
