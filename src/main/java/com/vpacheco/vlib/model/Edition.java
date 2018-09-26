@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.ISBN;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -17,6 +16,10 @@ public class Edition extends UserDateAudit {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+
+  @Column(nullable = false)
+  @NotBlank
+  private String description;
 
   @Column(nullable = false)
   @PastOrPresent

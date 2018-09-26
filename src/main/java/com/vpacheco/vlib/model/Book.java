@@ -24,7 +24,6 @@ public class Book extends UserDateAudit {
   @Size(min = 10, max = 500)
   private String description;
 
-  @Size(min = 1)
   @OneToMany(
       cascade = CascadeType.ALL,
       orphanRemoval = true,

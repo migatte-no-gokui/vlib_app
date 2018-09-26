@@ -2,6 +2,7 @@ package com.vpacheco.vlib.task;
 
 import com.vpacheco.vlib.model.Requisition;
 import com.vpacheco.vlib.model.Settings;
+import com.vpacheco.vlib.repository.BookRepository;
 import com.vpacheco.vlib.repository.RequisitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +18,9 @@ public class RequisitionCheckerTask {
   private RequisitionRepository requisitionRepository;
 
   @Autowired
+  private BookRepository bookRepository;
+
+  @Autowired
   private Settings settings;
 
   @Scheduled(cron = "* * 07 * * ?")
@@ -28,6 +32,10 @@ public class RequisitionCheckerTask {
       }
           return requisition;
     });
+  }
+
+  public void test() {
+    
   }
 
   private boolean isReservationExpired(Requisition requisition) {
