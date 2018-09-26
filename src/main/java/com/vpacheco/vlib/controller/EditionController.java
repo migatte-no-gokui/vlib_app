@@ -1,6 +1,5 @@
 package com.vpacheco.vlib.controller;
 
-import com.vpacheco.vlib.repository.EditionRepository;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 
 @RepositoryRestController

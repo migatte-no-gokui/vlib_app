@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Book, Long> {
   Page<Book> findByTitle(String title, Pageable pageable);
 
-  @Query("SELECT b FROM Book b INNER JOIN Edition e ON e.isbn = :isbn")
-  Book findByISBN(String isbn);
+  Book findByIsbn(String isbn);
 
   @Query("SELECT b FROM Book b where b.copiesAvailable > 0")
   Page<Book> findAvailable(Pageable pageable);
@@ -21,12 +20,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
   @Query("SELECT b FROM Book b where b.copiesAvailable = 0")
   Page<Book> findUnavailable(Pageable pageable);
 
-  @Query("SELECT b from Book b INNER JOIN Edition e ON e.language.name = :languageName")
+  @Query("SELECT b from Book b INNER JOIN Language l ON l.name = :languageName")
   Page<Book> findByLanguage(String languageName, Pageable pageable);
 
-  @Query("SELECT b from Book b INNER JOIN Edition e ON e.publisher.name = :publisherName")
+  @Query("SELECT b from Book b INNER JOIN Publisher p ON p.name = :publisherName")
   Page<Book> findByPublisher(String publisherName, Pageable pageable);
 
-  @Query("SELECT b from Book b INNER JOIN Genre g ON b.genre.name = :genreName")
+  @Query("SELECT b from Book b INNER JOIN Genre g ON g.name = :genreName")
   Page<Book> findByGenre(String genreName, Pageable pageable);
 }

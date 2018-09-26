@@ -8,10 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import com.vpacheco.vlib.model.audit.DateAudit;
-import org.hibernate.annotations.GeneratorType;
 
 @Entity
 @Data
@@ -44,6 +43,15 @@ public class User extends DateAudit {
 
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<Role> roles = new HashSet<>();
+
+  @OneToOne(fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL)
+  private Customer customer;
+
+  @OneToMany(
+      fetch = FetchType.LAZY
+  )
+  private List<Requisition> authorizedRequisitions;
 
   public User() {
 

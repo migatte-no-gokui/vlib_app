@@ -2,13 +2,11 @@ package com.vpacheco.vlib.model;
 
 import com.vpacheco.vlib.model.audit.UserDateAudit;
 import lombok.Data;
+import org.hibernate.validator.constraints.ISBN;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -27,14 +25,32 @@ public class Book extends UserDateAudit {
   @OneToMany(
       cascade = CascadeType.ALL,
       orphanRemoval = true,
-      fetch = FetchType.EAGER
+      fetch = FetchType.LAZY
   )
-  private List<Edition> editions = new ArrayList<>();
 
-  @NotBlank
-  @Size
+  @NotNull
   private int copiesAvailable;
 
   @ManyToOne(optional = false)
   private Genre genre;
+
+  @ManyToOne
+  private Publisher publisher;
+
+  @ManyToOne(optional = false)
+  private Author author;
+
+  @ISBN
+  @NotBlank
+  private String isbn;
+
+  @PastOrPresent
+  @NotNull
+  private LocalDate publicationDate;
+
+  @Min(4)
+  private int pages;
+
+  @ManyToOne
+  private Language language;
 }

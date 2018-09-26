@@ -18,6 +18,7 @@ public class Language {
 
   @NotBlank
   @Size(min = 3)
+  @Column(unique = true, nullable = false)
   private String name;
 
   @OneToMany(cascade = CascadeType.ALL)

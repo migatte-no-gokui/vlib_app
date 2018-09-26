@@ -18,6 +18,7 @@ public class Publisher extends UserDateAudit {
 
   @NotBlank
   @Size(min = 5, max = 50)
+  @Column(unique = true, nullable = false)
   private String name;
 
   @OneToMany(
@@ -25,5 +26,5 @@ public class Publisher extends UserDateAudit {
       orphanRemoval = true,
       fetch = FetchType.EAGER
   )
-  private List<Edition> editedBooks = new ArrayList<>();
+  private List<Book> editedBooks = new ArrayList<>();
 }

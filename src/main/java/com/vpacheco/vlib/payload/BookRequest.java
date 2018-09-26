@@ -3,19 +3,14 @@ package com.vpacheco.vlib.payload;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class BookRequest {
   @NotBlank
-  String criteria;
+  private String criteria;
+  @NotNull
+  private int page;
   @NotBlank
-  int page;
-  @NotBlank
-  String direction;
-
-  public BookRequest(String criteria, int page, String direction) {
-    this.criteria = criteria;
-    this.page = page;
-    this.direction = direction;
-  }
+  private String direction;
 }

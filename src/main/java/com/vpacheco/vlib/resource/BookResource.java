@@ -1,26 +1,21 @@
 package com.vpacheco.vlib.resource;
 
 import com.vpacheco.vlib.model.Book;
-import com.vpacheco.vlib.resource.assembler.EditionResourceAssembler;
 import lombok.Getter;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.Instant;
-import java.util.List;
+import java.time.LocalDate;
 
 public class BookResource extends ResourceSupport {
-
-  private static final EditionResourceAssembler
-    editionAssembler = new EditionResourceAssembler();
-
   @Getter
   private final String title;
 
   @Getter
-  private final Instant createdAt;
+  private final String description;
 
   @Getter
-  private final List<EditionResource> editions;
+  private final Instant createdAt;
 
   @Getter
   private final int copiesAvailable;
@@ -28,11 +23,35 @@ public class BookResource extends ResourceSupport {
   @Getter
   private final String genre;
 
+  @Getter
+  private final String publisher;
+
+  @Getter
+  private final String author;
+
+  @Getter
+  private final String isbn;
+
+  @Getter
+  private final LocalDate publicationDate;
+
+  @Getter
+  private final int pages;
+
+  @Getter
+  private final String language;
+
   public BookResource(Book book) {
     this.title = book.getTitle();
+    this.description = book.getDescription();
     this.createdAt = book.getCreatedAt();
     this.genre = book.getGenre().getName();
-    this.editions = editionAssembler.toResources(book.getEditions());
     this.copiesAvailable = book.getCopiesAvailable();
+    this.publisher = book.getPublisher().getName();
+    this.author = book.getAuthor().getName();
+    this.isbn = book.getIsbn();
+    this.publicationDate = book.getPublicationDate();
+    this.pages = book.getPages();
+    this.language = book.getLanguage().getName();
   }
 }

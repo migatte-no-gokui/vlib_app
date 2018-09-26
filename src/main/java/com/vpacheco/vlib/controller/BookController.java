@@ -69,7 +69,7 @@ public class BookController {
   ) {
 
     Resource<BookResource> resourceByISBN = bookService.createResource(isbn,
-        (String criteria, BookRepository repo) -> repo.findByISBN(criteria));
+        (String criteria, BookRepository repo) -> repo.findByIsbn(criteria));
 
     resourceByISBN.add(
         linkTo(methodOn(BookController.class).findByISBN(isbn))

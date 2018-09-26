@@ -2,7 +2,6 @@ package com.vpacheco.vlib.model;
 
 import com.vpacheco.vlib.model.audit.UserDateAudit;
 import com.vpacheco.vlib.validator.ValidDeliverDate;
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,15 +24,13 @@ public class Requisition extends UserDateAudit {
 
   private LocalDateTime deliveryDate;
 
-  @Column(updatable = false)
+  @ManyToOne
   private User authorizedBy;
 
+  @ManyToOne(optional = false)
+  private Customer customer;
+
+  @NotNull
   // when user doesn't pick up on time
   private boolean cancelled = false;
-
-  // move this to service or controller
-  public boolean isAdmin(User user) {
-    return user.getRoles().stream()
-        .anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN);
-  }
 }
