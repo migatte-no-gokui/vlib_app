@@ -1,18 +1,19 @@
 package com.vpacheco.vlib.service;
 
+import com.vpacheco.vlib.exception.BadRequestException;
 import com.vpacheco.vlib.exception.ResourceNotFoundException;
-import com.vpacheco.vlib.model.Book;
-import com.vpacheco.vlib.model.Customer;
-import com.vpacheco.vlib.model.Requisition;
-import com.vpacheco.vlib.model.RoleName;
+import com.vpacheco.vlib.model.*;
 import com.vpacheco.vlib.payload.RequisitionRequest;
 import com.vpacheco.vlib.repository.BookRepository;
 import com.vpacheco.vlib.repository.CustomerRepository;
 import com.vpacheco.vlib.repository.RequisitionRepository;
 import com.vpacheco.vlib.repository.UserRepository;
-import com.vpacheco.vlib.security.UserPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RequisitionService {
@@ -29,6 +30,8 @@ public class RequisitionService {
   @Autowired
   private CustomerRepository customerRepository;
 
+  private static final Logger logger = LoggerFactory.getLogger(RequisitionService.class);
+
   public Requisition createRequisition(RequisitionRequest requisitionRequest) {
 
     Long customerId = requisitionRequest.getCustomerId();
@@ -43,5 +46,21 @@ public class RequisitionService {
     requisition.setCustomer(customer);
 
     return requisition;
+  }
+
+  public List<Requisition> findByCustomer(String username, Long customerId) {
+
+    User user = userRepository.findByUsername(username).orElseThrow(
+        () -> new ResourceNotFoundException("User", "username", username));
+
+    Customer customer = customerRepository.findById(customerId)
+        .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+
+    if (user.getId() == customer.getUser().getId() ||
+        user.getRoles().stream().anyMatch(r -> r.getName() == RoleName.ROLE_ADMIN)) {
+      return customer.getRequisitions();
+    } else {
+      throw new BadRequestException("Not authorized to access this resource");
+    }
   }
 }
