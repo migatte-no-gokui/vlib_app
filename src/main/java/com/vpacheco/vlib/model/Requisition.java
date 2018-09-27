@@ -35,6 +35,7 @@ public class Requisition extends UserDateAudit {
 
   @PreUpdate
   public void setCopiesOnUpdate() {
+    stateManager();
     int availableCopies = book.getCopiesAvailable();
     book.setCopiesAvailable(availableCopies--);
     if (status ==  RequisitionStatus.CANCELLED ||
@@ -48,5 +49,12 @@ public class Requisition extends UserDateAudit {
   public void setCopiesOnCreate() {
     int availableCopies = book.getCopiesAvailable();
     book.setCopiesAvailable(availableCopies--);
+  }
+
+  public void stateManager() {
+    if (this.pickupDate != null && this.deliveryDate == null)
+      this.setStatus(RequisitionStatus.PICKED_UP);
+    else if (this.pickupDate != null && this.deliveryDate != null)
+      this.setStatus(RequisitionStatus.DELIVERED);
   }
 }
