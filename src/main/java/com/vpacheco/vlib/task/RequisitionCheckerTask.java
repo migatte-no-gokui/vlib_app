@@ -1,6 +1,7 @@
 package com.vpacheco.vlib.task;
 
 import com.vpacheco.vlib.model.Requisition;
+import com.vpacheco.vlib.model.RequisitionStatus;
 import com.vpacheco.vlib.model.Settings;
 import com.vpacheco.vlib.repository.BookRepository;
 import com.vpacheco.vlib.repository.RequisitionRepository;
@@ -18,9 +19,6 @@ public class RequisitionCheckerTask {
   private RequisitionRepository requisitionRepository;
 
   @Autowired
-  private BookRepository bookRepository;
-
-  @Autowired
   private Settings settings;
 
   @Scheduled(cron = "* * 07 * * ?")
@@ -28,14 +26,11 @@ public class RequisitionCheckerTask {
     requisitionRepository.findByCancelledIsFalse()
         .stream().map(requisition -> {
       if (isReservationExpired(requisition)) {
-        requisition.setCancelled(true);
+        requisition.setStatus(RequisitionStatus.CANCELLED);
       }
+      requisitionRepository.save(requisition);
           return requisition;
     });
-  }
-
-  public void test() {
-    
   }
 
   private boolean isReservationExpired(Requisition requisition) {

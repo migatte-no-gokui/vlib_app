@@ -48,6 +48,7 @@ public class User extends DateAudit {
       cascade = CascadeType.ALL)
   private Customer customer;
 
+  // List of requisitions authorized by a specific admin
   @OneToMany(
       fetch = FetchType.LAZY
   )

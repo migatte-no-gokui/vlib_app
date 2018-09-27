@@ -21,6 +21,6 @@ public class Language {
   @Column(unique = true, nullable = false)
   private String name;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<Edition> books = new ArrayList<>();
+  @OneToMany(fetch = FetchType.LAZY)
+  private List<Book> books = new ArrayList<>();
 }

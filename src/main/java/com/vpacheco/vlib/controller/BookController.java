@@ -3,7 +3,6 @@ package com.vpacheco.vlib.controller;
 import com.vpacheco.vlib.payload.BookRequest;
 import com.vpacheco.vlib.repository.BookRepository;
 import com.vpacheco.vlib.service.BookService;
-import com.vpacheco.vlib.util.AppConstants;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Resource;
@@ -47,17 +46,14 @@ public class BookController {
 
   @GetMapping(path="/books/findByTitle", produces="application/hal+json")
   public ResponseEntity<Resources<BookResource>> findByTitle(
-      @RequestParam(value ="title") String title,
-      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-      @RequestParam(value = "direction", defaultValue = AppConstants.DEFAULT_PAGE_DIR) String direction
+      @Valid @RequestBody BookRequest bookRequest
       ) {
-    BookRequest bookRequest = new BookRequest(title, page, direction);
 
     Resources<BookResource> resourcesByTitle =
         bookService.createResources(bookRequest,
             (String criteria, BookRepository repo, Pageable pageable) -> repo.findByTitle(criteria, pageable));
     resourcesByTitle.add(
-        linkTo(methodOn(BookController.class).findByTitle(title, page, direction))
+        linkTo(methodOn(BookController.class).findByTitle(bookRequest))
         .withRel("books"));
 
    return new ResponseEntity<>(resourcesByTitle, HttpStatus.OK);

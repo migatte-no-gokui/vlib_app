@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.ISBN;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,13 +23,11 @@ public class Book extends UserDateAudit {
   @Size(min = 10, max = 500)
   private String description;
 
-  @OneToMany(
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.LAZY
-  )
+  @OneToMany
+  private List<Requisition> requisitions;
 
   @NotNull
+  @Min(value = 0)
   private int copiesAvailable;
 
   @ManyToOne(optional = false)

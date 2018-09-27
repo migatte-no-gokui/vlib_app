@@ -31,6 +31,22 @@ public class Requisition extends UserDateAudit {
   private Customer customer;
 
   @NotNull
-  // when user doesn't pick up on time
-  private boolean cancelled = false;
+  private RequisitionStatus status = RequisitionStatus.RESERVED;
+
+  @PreUpdate
+  public void setCopiesOnUpdate() {
+    int availableCopies = book.getCopiesAvailable();
+    book.setCopiesAvailable(availableCopies--);
+    if (status ==  RequisitionStatus.CANCELLED ||
+        status == RequisitionStatus.DELIVERED)
+      book.setCopiesAvailable(availableCopies++);
+    else if (status == RequisitionStatus.PICKED_UP)
+      book.setCopiesAvailable(availableCopies--);
+  }
+
+  @PrePersist
+  public void setCopiesOnCreate() {
+    int availableCopies = book.getCopiesAvailable();
+    book.setCopiesAvailable(availableCopies--);
+  }
 }

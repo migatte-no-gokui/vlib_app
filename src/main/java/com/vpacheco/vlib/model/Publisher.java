@@ -24,7 +24,7 @@ public class Publisher extends UserDateAudit {
   @OneToMany(
       cascade = CascadeType.ALL,
       orphanRemoval = true,
-      fetch = FetchType.EAGER
+      fetch = FetchType.LAZY
   )
   private List<Book> editedBooks = new ArrayList<>();
 }

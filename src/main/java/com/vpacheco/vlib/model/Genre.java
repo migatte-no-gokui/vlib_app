@@ -18,6 +18,6 @@ public class Genre {
   @Column(unique = true, nullable = false)
   private String name;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY)
   private List<Book> books = new ArrayList<>();
 }
