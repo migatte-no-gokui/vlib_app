@@ -39,8 +39,9 @@ public class Book extends UserDateAudit {
   @ManyToOne(optional = false)
   private Author author;
 
-  @ISBN
+  @ISBN(type = ISBN.Type.ISBN_10)
   @NotBlank
+  @Column(unique = true)
   private String isbn;
 
   @PastOrPresent

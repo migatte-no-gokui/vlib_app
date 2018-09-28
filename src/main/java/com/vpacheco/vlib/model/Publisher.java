@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Publisher extends UserDateAudit {
+public class Publisher {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
