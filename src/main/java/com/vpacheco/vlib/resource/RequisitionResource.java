@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class RequisitionResource extends ResourceSupport {
 
@@ -37,7 +38,8 @@ public class RequisitionResource extends ResourceSupport {
     this.book = bookAssembler.toResource(requisition.getBook());
     this.pickupDate = requisition.getPickupDate();
     this.deliveryDate = requisition.getDeliveryDate();
-    this.authorizedBy = requisition.getAuthorizedBy().getName();
+    this.authorizedBy = Optional.ofNullable(requisition.getSafeAuthorizedBy().getName())
+        .orElse("");
     this.customer = customerAssembler.toResource(requisition.getCustomer());
   }
 }

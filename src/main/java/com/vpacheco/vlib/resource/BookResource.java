@@ -1,11 +1,13 @@
 package com.vpacheco.vlib.resource;
 
 import com.vpacheco.vlib.model.Book;
+import com.vpacheco.vlib.model.Language;
 import lombok.Getter;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class BookResource extends ResourceSupport {
   @Getter
@@ -47,11 +49,11 @@ public class BookResource extends ResourceSupport {
     this.createdAt = book.getCreatedAt();
     this.genre = book.getGenre().getName();
     this.copiesAvailable = book.getCopiesAvailable();
-    this.publisher = book.getPublisher().getName();
+    this.publisher = Optional.ofNullable(book.getPublisher().getName()).orElse("");
     this.author = book.getAuthor().getName();
     this.isbn = book.getIsbn();
     this.publicationDate = book.getPublicationDate();
     this.pages = book.getPages();
-    this.language = book.getLanguage().getName();
+    this.language = Optional.ofNullable(book.getSafeLanguage().getName()).orElse("");
   }
 }

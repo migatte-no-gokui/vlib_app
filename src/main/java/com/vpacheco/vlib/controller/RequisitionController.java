@@ -41,7 +41,6 @@ public class RequisitionController {
   }
 
   @PostMapping(path="/requisitions", produces = "application/hal+json")
-  @PreAuthorize("hasRole('USER')")
   public ResponseEntity<Resource<RequisitionResource>> create(
       @Valid @RequestBody RequisitionRequest requisitionRequest
   ){

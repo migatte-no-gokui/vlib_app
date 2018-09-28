@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -53,4 +54,14 @@ public class Book extends UserDateAudit {
 
   @ManyToOne
   private Language language;
+
+  public Language getSafeLanguage() {
+    return Optional.ofNullable(this.getLanguage())
+        .orElse(new Language());
+  }
+
+  public Publisher getSafePublisher() {
+    return Optional.ofNullable(this.getPublisher())
+        .orElse(new Publisher());
+  }
 }

@@ -76,6 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/user/checkUsernameAvailability",
             "/api/user/checkEmailAvailability")
         .permitAll()
+        .antMatchers(HttpMethod.POST, "/api/requisitions")
+        .hasRole("USER")
         .antMatchers(HttpMethod.POST, "/**")
         .hasRole("ADMIN")
         .antMatchers(HttpMethod.PUT, "/**")

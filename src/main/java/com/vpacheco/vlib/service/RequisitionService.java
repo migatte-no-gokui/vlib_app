@@ -45,7 +45,7 @@ public class RequisitionService {
     requisition.setBook(book);
     requisition.setCustomer(customer);
 
-    return requisition;
+    return requisitionRepository.save(requisition);
   }
 
   public List<Requisition> findByCustomer(String username, Long customerId) {

@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -56,5 +57,10 @@ public class Requisition extends UserDateAudit {
       this.setStatus(RequisitionStatus.PICKED_UP);
     else if (this.pickupDate != null && this.deliveryDate != null)
       this.setStatus(RequisitionStatus.DELIVERED);
+  }
+
+  public User getSafeAuthorizedBy() {
+    return Optional.ofNullable(this.getAuthorizedBy())
+        .orElse(new User());
   }
 }
